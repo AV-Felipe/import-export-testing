@@ -1,0 +1,93 @@
+html {
+    font-size: 100%;
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100%;
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    margin: 30px;
+}
+
+section {
+    margin-bottom: 20px ;
+}
+
+/* INVOICE INPUT */
+
+#invoiceInputForm-newInvoiceData {
+    padding: 5px;
+}
+@media (max-width: 755px){
+    #invoiceInputForm-newInvoiceData {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.alertMessage {
+    color: red;
+}
+
+/* INVOICE LIST */
+
+#listSystem{
+    width: 90%;
+    max-width: fit-content;
+    overflow-x: auto;
+}
+
+#invoiceTable {
+    width: 47rem;
+    border-collapse: collapse;
+}
+
+td, th {
+    padding: 5px;
+    text-align: center;
+    border-bottom: 1px solid #dddddd;
+}
+
+th {
+    width: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#clientNameColumn, #dueDateColumn {
+    cursor: pointer;
+}
+
+.dropdownMenuIcon {
+    width: 18px;
+    vertical-align: text-bottom;
+    cursor: pointer;
+}
+
+.dropdownMenu{
+    background-color: honeydew;
+    padding: 5px;
+    width: 150px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    display: none;
+}
+@media (max-width: 840px){
+    .dropdownMenu{
+        left: calc(50% - 75px);
+    }
+}
+

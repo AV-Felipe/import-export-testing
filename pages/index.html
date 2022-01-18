@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Joana's Invoice System</title>
+
+        <link rel="stylesheet" href="style.css" />
+        <script src="script.js" charset="utf-8" defer></script>
+    </head>
+    <body>
+        <h1>JOANA'S SYSTEM</h1>
+
+        <section id="iputSystem">
+
+            <form id="invoiceInputForm">
+                <fieldset id="invoiceInputForm-newInvoiceData">
+                    <legend>Nova Fatura</legend>
+
+                    <label for="customerName">Nome:</label>
+                    <input id="customerName"
+                        type="text"
+                        placeholder="nome do cliente"
+                    />
+
+                    <label for="dueDate">Vencimento:</label>
+                    <input id="dueDate"
+                        type="date"
+                    />
+
+                    <label for="baseValue">Valor:</label>
+                    <input id="baseValue"
+                        type="number"
+                        placeholder="valor do documento"
+                        min="0"
+                    />
+
+                    <button id="addInvoice" type="button">Adicionar</button>
+                </fieldset>
+            </form>
+
+        </section>
+
+        <section id="listSystem">
+
+            <table id="invoiceTable">
+                <caption>Documentos emitidos</caption>
+                
+                <thead>
+                    <tr>
+                        <th scope="col">Documento</th>
+                        <th scope="col">Emissão</th>
+                        <th scope="col" id="clientNameColumn">Cliente</th>
+                        <th scope="col" id="clientValueColumn">
+                            <div class="tableHeaderTitle">
+                                <span id="clientValueColumnTitle">Valor Original</span>
+                                <img id="invoiceTable-valueFilterButton"
+                                    class="dropdownMenuIcon valueFilter"
+                                    src="assets/images/dropdown-icon.svg"
+                                    alt="clique para exibir o menu do filtro"
+                                    aria-haspopup="true"
+                                    onclick="displayFilterMenu('valueFilter')"
+                                />
+                            </div>
+                            <div id="invoiceTable-valueFilterField" class="dropdownMenu valueFilter">
+                                <label for="minimumValueFilter">Mínimo:</label>
+                                <input type="number" id="minimumValueFilter" />
+                                <label for="maximumValueFilter">Máximo:</label>
+                                <input type="number" id="maximumValueFilter" />
+                                <button id="invoiceTable-valueFilterField-filterButton" type="button">Filtrar</button>
+                            </div>
+                        </th>
+                        <th scope="co" id="dueDateColumn">
+                            <div class="tableHeaderTitle">
+                                <span id="dueDateColumnTitle">Vencimento</span>
+                                <img id="invoiceTable-dueDateFilterButton"
+                                    class="dropdownMenuIcon dueDateFilter"
+                                    src="assets/images/dropdown-icon.svg"
+                                    alt="clique para exibir o menu do filtro"
+                                    aria-haspopup="true"
+                                    onclick="displayFilterMenu('dueDateFilter')"
+                                />
+                            </div>
+                            <div id="invoiceTable-dueDateFilterField" class="dropdownMenu dueDateFilter">
+                                <label for="minimumDueDateFilter">Mínimo:</label>
+                                <input type="date" id="minimumDueDateFilter" />
+                                <label for="maximumDueDateFilter">Máximo:</label>
+                                <input type="date" id="maximumDueDateFilter" />
+                                <button id="invoiceTable-dueDateFilterField-filterButton" type="button">Filtrar</button>
+                            </div>
+                        </th>
+                        <th scope="col">Valor Devido</th>
+                        <th scope="col">Encargos</th>
+                    </tr>
+                </thead>
+
+                <tbody id="invoiceList">
+                    <tr class="newInvoice">
+                        <td class="invoiceNumber">123456</td>
+                        <td class="invoiceIssueDate">10-01-2021</td>
+                        <td class="invoiceCustomer">João</td>
+                        <td class="invoiceMainValue">1000</td>
+                        <td class="invoiceDueDate">11-01-2021</td>
+                        <td class="invoiceCurrentValue">1001</td>
+                        <td class="invoiceLateFee">1</td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </section>
+        <button id="updateValues" type="button">Atualizar valores</button>
+
+        <button id="getTotalValue" type="button">Vendas Totais</button>
+        <p>Total de vendas<span id="salesTotal">R$</span></span></p>
+    </body>
+</html>
