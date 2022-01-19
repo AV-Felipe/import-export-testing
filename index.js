@@ -4,16 +4,77 @@ const express = require('express');
 
 const app = express();
 
+const fs = require('fs');
+
 const port = process.env.PORT || 3000;
 
 // MOCK DB FILE
-const data = require('./mock_data.json');
+//the require aproach only reads the file once, then caches it
+//const data = require('./mock_data.json');
 
 // enable the middleware for serving static files
 //by using this aproach we will serve all static files in the provided path argument
 app.use(express.static('pages')); //pages is the name of the directory where the files to be served are located, this will be the root route (/)
 
 app.use(express.json());
+
+
+
+app.get('/database', (req, res)=>{
+	fs.readFile('mock_data.json', 'utf8', (err, jsonString)=>{
+
+		//caso não consiga ler o arquivo, loga um erro no console
+		if(err){
+			console.log('file read failed: ', err);
+			return;
+		}
+
+		//tenta converter o json para um objeto, caso falhar, loga um erro sem quebrar a aplicação
+		try {
+			res.send(jsonString);
+			const sales = JSON.parse(jsonString);
+			console.log('nome do cliente: ', sales[0].customer);
+			
+		}catch (err){
+			console.log('error parsin json string: ', err);
+		}
+	})
+})
+
+app.post('/database', (req, res)=>{
+	let newInvoice = req.body;
+
+	fs.readFile('mock_data.json', 'utf8', (err, jsonString)=>{
+
+		//caso não consiga ler o arquivo, loga um erro no console
+		if(err){
+			console.log('file read failed: ', err);
+			return;
+		}
+
+		//tenta converter o json para um objeto, caso falhar, loga um erro sem quebrar a aplicação
+		try {
+			
+			const sales = JSON.parse(jsonString);
+			sales.push(newInvoice);
+
+			const jsonNewString = JSON.stringify(sales)
+			fs.writeFile('./mock_data.json', jsonNewString, err=>{
+				if(err){
+					console.log('Error writing file, ', err);
+				}else{
+					console.log('successfully wrote file');
+				}
+			})
+
+			console.log('nome do cliente: ', sales[0].customer);
+			
+		}catch (err){
+			console.log('error parsin json string: ', err);
+		}
+	})
+})
+
 
 // POST response - route /live-search - for searching DB
 app.post('/live-search', (req, res) => {

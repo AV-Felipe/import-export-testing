@@ -382,3 +382,14 @@ function filterByDateRange() {
         outputInvoiceList.innerHTML += generateInvoiceRow(element);
     });
 }
+
+
+// MODULARIZATION
+
+/*
+    Modules are local scoped, so anything declared within the module stays in the module
+    the most adequate approach for calling functions on html elements interactions would be through 
+    event listeners, but if we need to use an onclick hook, for instance, we can make the declaration
+    a property of the window object - this will make the declaration global.
+*/
+window.displayFilterMenu = displayFilterMenu;

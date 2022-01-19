@@ -1,0 +1,17 @@
+[
+    {
+        "customer": "Felipe",
+        "dueDate": "1985-07-08",
+        "value": 100,
+        "idNumber": 487065600000,
+        "issueDate": "1985-06-08",
+        "lateFeeRules": {
+            "fine": 0.02,
+            "interest": 0.001,
+            "interestType": {
+                "basis": "daily",
+                "calculationMethod": "simple"
+            }
+        }
+    }
+]

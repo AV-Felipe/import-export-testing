@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt">
-    <head>
+    
+<head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <title>Joana's Invoice System</title>
 
         <link rel="stylesheet" href="style.css" />
-        <script src="script.js" charset="utf-8" defer></script>
+
+        
+        <!--when using type module, the script is automatically deffered - view: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules 
+        <script type="module" src="main.js" charset="utf-8"></script>
+        -->
+
+        <script type="module" src="main-v3.js"></script>
+
     </head>
+
     <body>
         <h1>JOANA'S SYSTEM</h1>
+
+        <section>
+            <button type="button" id="fetch-data">carregar duplicatas</button>
+        </section>
 
         <section id="iputSystem">
 
