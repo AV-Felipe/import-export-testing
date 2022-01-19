@@ -4,7 +4,10 @@ const express = require('express');
 
 const app = express();
 
-const fs = require('fs');
+const fs = require('fs'); // this is a commonJS syntax it is equivalent to ES6 import * as fs from 'fs'
+//nodejs v9 and under lack the suport for the ES6 syntax, but newer versions do
+//for using de ES6 syntax, we must add a "type": "module", line to our package.json (or use .mjs extension) file and change all require
+//statements and other code from commonjs syntax to ES6 syntax
 
 const port = process.env.PORT || 3000;
 
@@ -19,7 +22,7 @@ app.use(express.static('pages')); //pages is the name of the directory where the
 app.use(express.json());
 
 
-
+// GET response
 app.get('/database', (req, res)=>{
 	fs.readFile('mock_data.json', 'utf8', (err, jsonString)=>{
 
@@ -29,11 +32,11 @@ app.get('/database', (req, res)=>{
 			return;
 		}
 
-		//tenta converter o json para um objeto, caso falhar, loga um erro sem quebrar a aplicação
+		//envia a string do arquivo na resposta
 		try {
 			res.send(jsonString);
-			const sales = JSON.parse(jsonString);
-			console.log('nome do cliente: ', sales[0].customer);
+			//const sales = JSON.parse(jsonString);
+			//console.log('nome do cliente: ', sales[0].customer);
 			
 		}catch (err){
 			console.log('error parsin json string: ', err);
@@ -41,10 +44,12 @@ app.get('/database', (req, res)=>{
 	})
 })
 
+//POST response
 app.post('/database', (req, res)=>{
+	
 	let newInvoice = req.body;
 
-	fs.readFile('mock_data.json', 'utf8', (err, jsonString)=>{
+	fs.readFile('mock_data.json', 'utf8', (err, jsonTextFile)=>{
 
 		//caso não consiga ler o arquivo, loga um erro no console
 		if(err){
@@ -55,11 +60,11 @@ app.post('/database', (req, res)=>{
 		//tenta converter o json para um objeto, caso falhar, loga um erro sem quebrar a aplicação
 		try {
 			
-			const sales = JSON.parse(jsonString);
-			sales.push(newInvoice);
+			const jsonFileObject = JSON.parse(jsonTextFile);
+			jsonFileObject.push(newInvoice);
 
-			const jsonNewString = JSON.stringify(sales)
-			fs.writeFile('./mock_data.json', jsonNewString, err=>{
+			const jsonWithNewString = JSON.stringify(jsonFileObject)
+			fs.writeFile('./mock_data.json', jsonWithNewString, err=>{
 				if(err){
 					console.log('Error writing file, ', err);
 				}else{
@@ -67,7 +72,7 @@ app.post('/database', (req, res)=>{
 				}
 			})
 
-			console.log('nome do cliente: ', sales[0].customer);
+			//console.log('nome do cliente: ', jsonFileObject[0].customer);
 			
 		}catch (err){
 			console.log('error parsin json string: ', err);
@@ -75,62 +80,6 @@ app.post('/database', (req, res)=>{
 	})
 })
 
-
-// POST response - route /live-search - for searching DB
-app.post('/live-search', (req, res) => {
-	
-	// GENERAL VARIABLES
-	let searchValue = req.body.value;
-	let searchField = req.body.valueType;
-	let searchType = req.body.queryType;
-	//console.log('critérios da pesquisa: ' + req.body.value);
-
-	let searchResult = [];
-	
-	// RESPONSE OPERATIONS
-	if (searchType === 'complete' || searchType === 'partial'){
-
-		dbSearch(data, searchResult, searchType);
-		
-	}else{
-		res.send('você não passou um valor válido');
-	}
-
-	if(searchResult.length === 0){
-		res.send([{}]);
-	}else{
-		res.json(searchResult);
-	}
-
-	// DB QUERY FUNCTION
-	function dbSearch(sourceData, destinationOutput, outputFormat){
-		sourceData.forEach(e => {
-			let currentDbElement = e[searchField];
-			
-			if (searchField !== 'id'){
-				currentDbElement = currentDbElement.toLowerCase();
-				if (currentDbElement.includes(searchValue)){
-					if(outputFormat === 'partial'){
-						destinationOutput.push({[searchField]: e[searchField]});
-					}else{
-						destinationOutput.push(e);
-					}
-					
-				}
-			}else{
-				if(currentDbElement == searchValue){
-					if(outputFormat === 'partial'){
-						destinationOutput.push({[searchField]: e[searchField]});
-					}else{
-						destinationOutput.push(e);
-					}
-					
-				}
-			}	
-		});
-	}
-
-});
 
 // custom 404 page
 app.use((req, res) => {

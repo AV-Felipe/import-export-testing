@@ -1,5 +1,5 @@
 // IMPORTS
-import { loadInvoices, sendNewInvoice, currentList } from "./modules/server-endpoints.js";
+import { loadInvoices, currentList } from "./modules/server-endpoints.js";
 import { saveInvoice } from "./modules/data-input.js";
 import { displayFilterMenu } from "./modules/filter-modal.js";
 import { filterByValueRange, filterByDateRange } from "./modules/filter-functions.js";
